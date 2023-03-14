@@ -1,0 +1,9 @@
+--init Project --
+npm init -y
+npm i -g typescript
+npm i -D typescript ts-node nodemon
+npm i express
+npx tsc --init
+npx tsc // create dist/index.js
+npm i -D @types/express @types/node
+npm i -D @types/http-errors
