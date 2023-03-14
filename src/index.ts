@@ -1,4 +1,3 @@
-import { RecordWithTtl } from 'dns';
 import express, { Express, Request, Response } from 'express';
 
 const app: Express = express();
@@ -65,9 +64,15 @@ function getAllProducts(req: Request, res: Response) {
     res.json(products);
 }
 
+function getProductById(req: Request, res: Response) {
+    const userId = req.params.userId;
+    res.send(`This is Product id = ${userId}`);
+}
+
 app.get("/user/v1/users", getAllUsers);
 app.post("/user/v1/users/:userId", getUserById);
 app.get("/product/v1/products", getAllProducts);
+app.post("/product/v1/products/:userId", getProductById);
 
 app.listen(PORT, () => {
     console.log(`Running on Server PORT ${PORT}`);
