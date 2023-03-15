@@ -1,33 +1,48 @@
-import express, {Express, Request, Response} from 'express';
+import express, { Express, Request, Response } from 'express';
+import axios from 'axios';
 
 const router = express.Router();
 
-interface Product {
+interface ProductAPI {
     id: number;
-    name: string;
+    title: string;
+    subtitle: string;
+    description: string;
     price: string;
+    image: string;
 }
 
-const products: Product[] = [
-    {
-        id: 1,
-        name: "milk",
-        price: "10"
-    },
-    {
-        id: 2,
-        name: "water",
-        price: "5"
-    },
-    {
-        id: 3,
-        name: "green tea",
-        price: "15"
-    }
-];
+interface Product {
+    id: number;
+    title: string;
+    subtitle: string;
+    description: string;
+    price: string;
+    imageUrl: string;
+}
 
-function getAllProducts(req: Request, res: Response) {
-    res.json(products);
+class ProductMapper {
+    static toProduct(productAPI: ProductAPI): Product {
+        const { id, title, subtitle, description, price, image } = productAPI;
+
+        return { id, title, subtitle, description, price, imageUrl: image };
+    }
+
+    static toProductList(productList: ProductAPI[]): Product[] {
+        return productList.map(product => ProductMapper.toProduct(product));
+    }
+}
+
+async function getAllProducts(req: Request, res: Response) {
+    try {
+        const response = await axios.get("https://my-json-server.typicode.com/thotsaphon-bank/e-commerce/products");
+        const productAPI = response.data;
+        const productList = ProductMapper.toProductList(productAPI);
+
+        res.json(productList);
+    } catch (error) {
+        console.log("error")
+    }
 }
 
 function getProductById(req: Request, res: Response) {
