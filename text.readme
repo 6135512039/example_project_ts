@@ -7,3 +7,9 @@ npx tsc --init
 npx tsc // create dist/index.js
 npm i -D @types/express @types/node
 npm i -D @types/http-errors
+
+----------
+npm install
+npx tsc // convert ts -> js
+yarn start 
+----------
